@@ -1,0 +1,14 @@
+<form action="/animal/new" method="post">
+  <label for="animal-name">Animal name</label>
+  <input id="animal-name" name="animal-name" type="text" required autofocus>
+  <label for="animal-breed">Animal breed</label>
+  <input id="animal-breed" name="animal-breed" type="text" required>
+  <label for="animal-gender">Animal gender</label>
+  <input id="animal-gender" name="animal-gender" type="text" required>
+  <label for="animal-age">Animal age</label>
+  <input id="animal-age" name="animal-age" type="number" min=0 required>
+  <input id="animal-species" name="animal-species" type="text" value='@model.GetId()' hidden>
+  <button type="submit">Add</button>
+</form>
+
+<a href="/">View all species</a>

@@ -1,0 +1,17 @@
+<h2>Here are all the @Model["species"].GetName() available for adoption.</h2>
+
+@if (@Model["animals"].Count == 0)
+{
+  <p>No animals have been added yet!</p>
+}
+else
+{
+  <ol>
+    @foreach (var animal in @Model["animals"])
+    {
+      <li><a href="/animal/@animal.GetId()">@animal.GetName()<a></li>
+    }
+  </ol>
+}
+<p><a href='/animal/new/@Model["species"].GetId()'>Add a new animal</a></p>
+<a href="/">View all species</a>
