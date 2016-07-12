@@ -11,14 +11,16 @@ namespace AnimalShelter
     private string _breed;
     private string _gender;
     private int _age;
+    private int _speciesId;
 
-    public Animal(string name, string breed, string gender, int age, int id = 0)
+    public Animal(string name, string breed, string gender, int age, int speciesId, int id = 0)
     {
       _id = id;
       _name = name;
       _gender = gender;
       _breed = breed;
       _age = age;
+      _speciesId = speciesId;
     }
 
     public override bool Equals(System.Object otherAnimal)
@@ -30,12 +32,12 @@ namespace AnimalShelter
       else
       {
         Animal newAnimal = (Animal) otherAnimal;
-        bool idEquality = this.GetId() == newAnimal.GetId();
         bool nameEquality = this.GetName() == newAnimal.GetName();
         bool breedEquality = this.GetBreed() == newAnimal.GetBreed();
         bool genderEquality = this.GetGender() == newAnimal.GetGender();
         bool ageEquality = this.GetAge() == newAnimal.GetAge();
-        return (idEquality && nameEquality && breedEquality && genderEquality && ageEquality);
+        bool speciesEquality = this.GetSpeciesId() == newAnimal.GetSpeciesId();
+        return (nameEquality && breedEquality && genderEquality && ageEquality && speciesEquality);
       }
     }
 
@@ -46,6 +48,15 @@ namespace AnimalShelter
     public void SetId(int newId)
     {
       _id = newId;
+    }
+
+    public int GetSpeciesId()
+    {
+      return _speciesId;
+    }
+    public void SetSpeciesId(int newSpeciesId)
+    {
+      _speciesId = newSpeciesId;
     }
 
     public string GetName()
@@ -90,7 +101,7 @@ namespace AnimalShelter
       SqlDataReader rdr;
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("INSERT INTO animals (name, breed, gender, age) OUTPUT INSERTED.id VALUES (@animalName, @animalBreed, @animalGender, @animalAge);", conn);
+      SqlCommand cmd = new SqlCommand("INSERT INTO animals (name, breed, gender, age, species_id) OUTPUT INSERTED.id VALUES (@animalName, @animalBreed, @animalGender, @animalAge, @animalSpeciesId);", conn);
 
       SqlParameter nameParameter = new SqlParameter();
       nameParameter.ParameterName = "@animalName";
@@ -108,10 +119,15 @@ namespace AnimalShelter
       ageParameter.ParameterName = "@animalAge";
       ageParameter.Value = this.GetAge();
 
+      SqlParameter speciesIdParameter = new SqlParameter();
+      speciesIdParameter.ParameterName = "@animalSpeciesId";
+      speciesIdParameter.Value = this.GetSpeciesId();
+
       cmd.Parameters.Add(nameParameter);
       cmd.Parameters.Add(breedParameter);
       cmd.Parameters.Add(genderParameter);
       cmd.Parameters.Add(ageParameter);
+      cmd.Parameters.Add(speciesIdParameter);
 
       rdr = cmd.ExecuteReader();
 
@@ -146,7 +162,8 @@ namespace AnimalShelter
         string animalBreed = rdr.GetString(2);
         string animalGender = rdr.GetString(3);
         int animalAge = rdr.GetInt32(4);
-        Animal newAnimal = new Animal(animalName, animalBreed, animalGender, animalAge, animalId);
+        int animalSpecies = rdr.GetInt32(5);
+        Animal newAnimal = new Animal(animalName, animalBreed, animalGender, animalAge, animalSpecies, animalId);
         allAnimals.Add(newAnimal);
       }
       if (rdr != null)
