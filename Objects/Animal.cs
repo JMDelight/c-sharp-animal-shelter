@@ -21,6 +21,24 @@ namespace AnimalShelter
       _age = age;
     }
 
+    public override bool Equals(System.Object otherAnimal)
+    {
+      if (!(otherAnimal is Animal))
+      {
+        return false;
+      }
+      else
+      {
+        Animal newAnimal = (Animal) otherAnimal;
+        bool idEquality = this.GetId() == newAnimal.GetId();
+        bool nameEquality = this.GetName() == newAnimal.GetName();
+        bool breedEquality = this.GetBreed() == newAnimal.GetBreed();
+        bool genderEquality = this.GetGender() == newAnimal.GetGender();
+        bool ageEquality = this.GetAge() == newAnimal.GetAge();
+        return (idEquality && nameEquality && breedEquality && genderEquality && ageEquality);
+      }
+    }
+
     public int GetId()
     {
       return _id;

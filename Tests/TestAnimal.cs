@@ -24,7 +24,7 @@ namespace AnimalShelter
     }
 
     [Fact]
-    public void Test_ItemAddedToDatabase()
+    public void Test_Save_ItemAddedToDatabase()
     {
       //Arrange
       Animal newAnimal = new Animal("Bob", "ballpython", "bob", 4);
@@ -36,6 +36,17 @@ namespace AnimalShelter
       // Assert
       Assert.Equal(1, testList.Count);
     }
+
+    [Fact]
+    public void Test_Equal_ReturnsTrueForSameName()
+    {
+      //Arrange, Act
+      Animal firstAnimal = new Animal("Bob", "ballpython", "bob", 4);
+      Animal secondAnimal = new Animal("Bob", "ballpython", "bob", 4);
+
+      //Assert
+      Assert.Equal(firstAnimal, secondAnimal);
+     }
 
 
     public void Dispose()
